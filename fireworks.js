@@ -3,6 +3,7 @@ var c =canvas.getContext('2d');
 canvas.width=window.innerWidth;
 canvas.height=window.innerHeight;
 
+var mouseDown=false;
 var shoots=[];
 var parts=[];
 var mousePosition={x:window.innerWidth/2,y:window.innerHeight/2};
@@ -20,6 +21,13 @@ window.addEventListener('resize',function(){
     canvas.height=window.innerHeight;
 });
 
+window.addEventListener('mousedown',()=>{
+    mouseDown=true;
+});
+
+window.addEventListener('mouseup',()=>{
+    mouseDown=false;
+})
 
 function particular(x,y,r,direction,isShoot){
     this.x=x;
@@ -99,9 +107,10 @@ function getShootDirection(){
 }
 
 function shoot(){
-
-    setTimeout(shoot,200);
-    shoots.push(new particular(window.innerWidth/2,window.innerHeight,5,getShootDirection(),true));
+    if(mouseDown)
+        shoots.push(new particular(window.innerWidth/2,window.innerHeight,5,getShootDirection(),true));
+    setTimeout(shoot, 200);
+       
 }
 
 function filterShoots(s){
