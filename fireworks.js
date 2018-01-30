@@ -1,15 +1,19 @@
 var canvas=document.querySelector('canvas');
 var c =canvas.getContext('2d');
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
 
-c.fillStyle='rgba(000,000,005,1)';
-c.fillRect(0,0,window.innerWidth,window.innerHeight);
 
-c.font = "60px Arial";
-c.textAlign = "center";
-c.fillStyle='#ddd';
-c.fillText("Press mouse button to launch fireworks", canvas.width/2, canvas.height/3);
+function init(){
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+    c.fillStyle='rgba(000,000,005,1)';
+    c.fillRect(0,0,window.innerWidth,window.innerHeight);
+
+    c.font = "60px Arial";
+    c.textAlign = "center";
+    c.fillStyle='#ddd';
+    c.fillText("Press mouse button to launch fireworks", canvas.width/2, canvas.height/3);
+}
+
 var startAnimate=true;
 var mouseDown=false;
 var shoots=[];
@@ -26,8 +30,9 @@ window.addEventListener('mousemove',(mouse)=>{
 window.addEventListener('resize',function(){
     shoots=[];
     parts=[];
-    canvas.width=window.innerWidth;
-    canvas.height=window.innerHeight;
+    init();
+    console.log(window.innerHeight);
+    init();
 });
 
 window.addEventListener('mousedown',()=>{
@@ -111,11 +116,23 @@ function vector(a,b){
     return{a:a,b:b}
 }
 
+function getShootHeight(){
+    var height=window.innerHeight;
+    if(height<460)
+        return getRandomFloat(9.5,12.1);
+    else if (height>=460 && height<650)
+        return getRandomFloat(11.5,13.1);
+    else if(height>=650 && height <800)
+        return getRandomFloat(12.5,15.1);
+    else
+        return getRandomFloat(15.5,17.1);
+}
+
 function getShootDirection(){
     var dx=mousePosition.x-window.innerWidth/2;
     //var dy=window.innerHeight-mousePosition.y;
 
-    return new vector(-dx/50,getRandomFloat(12.5,15.1));
+    return new vector(-dx/50,getShootHeight());
 }
 
 function shoot(){
@@ -150,5 +167,5 @@ function animate(){
         p.update();
     });
 }
-
+init();
 shoot();
