@@ -3,11 +3,20 @@ var c =canvas.getContext('2d');
 canvas.width=window.innerWidth;
 canvas.height=window.innerHeight;
 
+c.fillStyle='rgba(000,000,005,1)';
+c.fillRect(0,0,window.innerWidth,window.innerHeight);
+
+c.font = "60px Arial";
+c.textAlign = "center";
+c.fillStyle='#ddd';
+c.fillText("Press mouse button to launch fireworks", canvas.width/2, canvas.height/3);
+var startAnimate=true;
 var mouseDown=false;
 var shoots=[];
 var parts=[];
 var mousePosition={x:window.innerWidth/2,y:window.innerHeight/2};
 const colors=['#c92e2e','#13a5a5','#eee'];
+
 
 window.addEventListener('mousemove',(mouse)=>{
     mousePosition.x=mouse.x;
@@ -23,11 +32,14 @@ window.addEventListener('resize',function(){
 
 window.addEventListener('mousedown',()=>{
     mouseDown=true;
+    if(startAnimate)
+        animate();
+    startAnimate=false;
 });
 
 window.addEventListener('mouseup',()=>{
-    mouseDown=false;
-})
+    mouseDown=false;  
+});
 
 function particular(x,y,r,direction,isShoot){
     this.x=x;
@@ -140,4 +152,3 @@ function animate(){
 }
 
 shoot();
-animate();
